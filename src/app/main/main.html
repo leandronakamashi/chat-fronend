@@ -1,0 +1,21 @@
+<div class="header">
+  <h2>Chat LNAK</h2>
+</div>
+<div class="chat-container">
+  <!-- <div *ngFor="let msg of mensagens">
+        <p>{{ msg }}</p>
+    </div> -->
+  @for(mensagem of mensagens; track mensagem) {
+  <div class="mensagem">
+    <span>{{ mensagem }}</span>
+  </div>
+  }
+  <div class="form">
+    <input
+      [(ngModel)]="mensagem"
+      placeholder="Digite uma mensagem"
+      (keydown.enter)="enviar()"
+    />
+    <button (click)="enviar()">Enviar</button>
+  </div>
+</div>
