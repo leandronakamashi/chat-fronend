@@ -12,14 +12,20 @@ export class Main implements OnInit {
   mensagens: string[] = [];
   mensagem: string = '';
   totalClientes: number = 1;
+  conectado = false;
   constructor() {}
 
   ngOnInit(): void {
     // Initialization logic here
     // this.socket = new WebSocket('ws://localhost:3000');
     this.socket = new WebSocket(
-      'wss://chat-backend-production-02f0.up.railway.app:3000'
+      'wss://chat-backend-production-02f0.up.railway.app'
     );
+
+    this.socket.onopen = () => {
+      this.conectado = true;
+      console.log('WebSocket conectado!');
+    };
 
     this.socket.onmessage = (event) => {
       this.mensagens.push('Recebida: ' + event.data);
