@@ -16,7 +16,10 @@ export class Main implements OnInit {
 
   ngOnInit(): void {
     // Initialization logic here
-    this.socket = new WebSocket('ws://localhost:3000');
+    // this.socket = new WebSocket('ws://localhost:3000');
+    this.socket = new WebSocket(
+      'https://chat-fronend-delta.vercel.app/api/server:3000'
+    );
 
     this.socket.onmessage = (event) => {
       this.mensagens.push('Recebida: ' + event.data);
