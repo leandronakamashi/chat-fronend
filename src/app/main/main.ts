@@ -18,7 +18,7 @@ export class Main implements OnInit {
     // Initialization logic here
     // this.socket = new WebSocket('ws://localhost:3000');
     this.socket = new WebSocket(
-      'ws://chat-backend-production-02f0.up.railway.app:3000'
+      'wss://chat-backend-production-02f0.up.railway.app:3000'
     );
 
     this.socket.onmessage = (event) => {
