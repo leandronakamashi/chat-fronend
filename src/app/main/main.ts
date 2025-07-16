@@ -17,10 +17,10 @@ export class Main implements OnInit {
 
   ngOnInit(): void {
     // Initialization logic here
-    this.socket = new WebSocket('ws://localhost:3000');
-    // this.socket = new WebSocket(
-    //   'wss://chat-backend-production-02f0.up.railway.app'
-    // );
+    // this.socket = new WebSocket('ws://localhost:3000');
+    this.socket = new WebSocket(
+      'wss://chat-backend-production-02f0.up.railway.app'
+    );
 
     this.socket.onopen = (event) => {
       this.conectado = true;
