@@ -6,8 +6,8 @@
         <p>{{ msg }}</p>
     </div> -->
   @for(mensagem of mensagens; track mensagem) {
-  <div class="mensagem">
-    <span>{{ mensagem }}</span>
+  <div class="mensagem" [ngClass]="mensagem.tipo === 'total' ? 'pGreen' : null">
+    <span>{{ mensagem.texto }}</span>
   </div>
   }
   <div class="form">

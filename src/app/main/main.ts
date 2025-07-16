@@ -1,15 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
 export class Main implements OnInit {
   socket!: WebSocket;
-  mensagens: string[] = [];
+  mensagens: { texto: string; tipo: string }[] = [];
   mensagem: string = '';
   totalClientes: number = 1;
   conectado = false;
@@ -32,10 +33,16 @@ export class Main implements OnInit {
         const data = JSON.parse(event.data);
         if (data.tipo === 'valor') {
           // Use data.valor como quiser
-          this.mensagens.push('Total de pessoas: ' + data.valor);
+          this.mensagens.push({
+            texto: `Total de pessoas: ${data.valor}`,
+            tipo: 'total',
+          });
         }
       } catch {
-        this.mensagens.push('Recebida: ' + event.data);
+        this.mensagens.push({
+          texto: `recebida: ${event.data}`,
+          tipo: 'recebido',
+        });
         // Mensagem normal
       }
     };
@@ -44,7 +51,10 @@ export class Main implements OnInit {
   enviar() {
     if (this.mensagem.trim()) {
       this.socket.send(this.mensagem);
-      this.mensagens.push('Você: ' + this.mensagem);
+      this.mensagens.push({
+        texto: `Você:  ${this.mensagem}`,
+        tipo: 'enviado',
+      });
       this.mensagem = '';
     }
   }
