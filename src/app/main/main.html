@@ -1,5 +1,8 @@
 <div class="header">
   <h2>Chat LNAK</h2>
+  <span class="total-clientes">
+    Total de pessoas: {{ totalClientes.valor }}
+  </span>
 </div>
 <div class="chat-container">
   <!-- <div *ngFor="let msg of mensagens">
@@ -7,7 +10,7 @@
     </div> -->
   @for(mensagem of mensagens; track mensagem) {
   <div class="mensagem" [ngClass]="mensagem.tipo === 'total' ? 'pGreen' : null">
-    <span>{{ mensagem.texto }}</span>
+    <span>{{ mensagem.nome }} : {{ mensagem.texto }}</span>
   </div>
   }
   <div class="form">
