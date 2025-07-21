@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,7 +13,10 @@ export class Main implements OnInit {
   socket!: WebSocket;
   mensagens: { texto: string; tipo: string; nome: string }[] = [];
   mensagem: string = '';
-  totalClientes: { tipo: string; valor: number } = { tipo: 'total', valor: 0 };
+  totalClientes = signal<{ tipo: string; valor: number }>({
+    tipo: 'total',
+    valor: 0,
+  });
   conectado = false;
   nome: string = '';
   constructor(private route: ActivatedRoute) {}
@@ -43,10 +46,10 @@ export class Main implements OnInit {
       }
       //se for do tipo valor atualiza o total de clientes
       if (data.tipo === 'valor') {
-        this.totalClientes = {
+        this.totalClientes.set({
           tipo: 'total',
           valor: data.valor,
-        };
+        });
       } else if (data.tipo === 'mensagem') {
         // se for do tipo mensagem adiciona a mensagem na lista de mensagens
         this.mensagens.push({
