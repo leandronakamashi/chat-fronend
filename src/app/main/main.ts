@@ -19,7 +19,7 @@ export class Main implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Initialization logic here
+    // url do backend localhost ou do railway
     // this.socket = new WebSocket('ws://localhost:3000');
     this.socket = new WebSocket(
       'wss://chat-backend-production-02f0.up.railway.app'
@@ -34,41 +34,21 @@ export class Main implements OnInit {
     };
 
     this.socket.onmessage = (event) => {
-      //   try {
-      //     const data = JSON.parse(event.data);
-      //     if (data.tipo === 'valor') {
-      //       // Use data.valor como quiser
-      //       this.mensagens.push({
-      //         texto: `Total de pessoas: ${data.valor}`,
-      //         tipo: 'total',
-      //         nome: '',
-      //       });
-      //     }
-      //   } catch {
-      //     const data = JSON.parse(event.data);
-      //     if (data.tipo === 'mensagem') {
-      //       this.mensagens.push({
-      //         texto: `${data.nome}: ${data.texto}`,
-      //         tipo: 'recebido',
-      //         nome: data.nome,
-      //       });
-      //     }
-      //   }
-      // };
+      // Verifica se a mensagem é um JSON válido alimenta a variavel data
       let data;
       try {
         data = JSON.parse(event.data);
       } catch {
-        // Se não for JSON, ignore ou trate como texto simples
         return;
       }
-
+      //se for do tipo valor atualiza o total de clientes
       if (data.tipo === 'valor') {
         this.totalClientes = {
           tipo: 'total',
           valor: data.valor,
         };
       } else if (data.tipo === 'mensagem') {
+        // se for do tipo mensagem adiciona a mensagem na lista de mensagens
         this.mensagens.push({
           texto: data.texto,
           tipo: 'recebido',
@@ -81,7 +61,7 @@ export class Main implements OnInit {
   enviar() {
     if (this.mensagem.trim()) {
       console.log('enviado');
-      // this.socket.send(this.mensagem);
+      // Envia a mensagem para o servidor WebSocket em formato JSON
       this.socket.send(
         JSON.stringify({
           texto: this.mensagem,
@@ -89,11 +69,7 @@ export class Main implements OnInit {
           nome: this.nome,
         })
       );
-      // this.mensagens.push({
-      //   texto: this.mensagem,
-      //   tipo: 'enviado',
-      //   nome: this.nome,
-      // });
+      //limpa a mensagem após enviar
       this.mensagem = '';
     }
   }
